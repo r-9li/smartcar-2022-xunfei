@@ -1,0 +1,8 @@
+<launch>
+  <node pkg="ucar_nav" type="main_controller_guess.py" name="main_controller_node" output="screen"/>
+  <node pkg="ucar_nav" type="moving_photo.py" name="moving_photo_node" output="screen"/>
+  <include file="$(find xf_mic_asr_offline)/launch/xf_mic_asr_offline.launch"></include>
+  <include file="$(find ucar_nav)/launch/ucar_navigation.launch"></include>
+  <include file="$(find xf_mic_tts_offline)/launch/xf_mic_tts_offline.launch"></include>
+  <include file="$(find usb_cam)/launch/usb_cam-test.launch"></include>
+</launch>

@@ -1,0 +1,90 @@
+TebLocalPlannerROS:
+  odom_topic: odom
+  map_frame: /map
+
+  acc_lim_x:  0.15
+  acc_lim_y:  0.15
+  acc_lim_theta: 2.0
+  max_vel_x:  0.6 #0.6  #2.5
+  max_vel_x_backwards: 0.2 #2.0 #2.0   #2.5
+  max_vel_y: 0.6 #0.6 #0 #2.5n
+  max_vel_theta: 1.5 #1.2  #0   #3  #16.55
+
+
+  min_turning_radius: 0.0
+  is_footprint_dynamic: false
+  footprint_model:
+    #type: "polygon"
+    #vertices: [[0.16, 0.11], [-0.16, 0.11], [-0.16, -0.11], [0.16, -0.11]]
+    type: "line"
+    line_start: [-0.16, 0.0]
+    line_end: [0.16, 0.0]
+
+
+  yaw_goal_tolerance: 0.05
+  xy_goal_tolerance: 0.1
+  free_goal_vel: false
+
+  dt_ref: 0.3                    #局部路径规划的解析度
+  dt_hysteresis: 0.1             #允许改变的时域解析度的浮动范围， 一般为 dt_ref 的 10% 左右;
+  min_samples: 3 
+  global_plan_overwrite_orientation: true  #覆盖全局路径中局部路径点的朝向，有些全局规划者在开始和全局目标之间没有考虑局部子目标的方向，因此自动确定
+  global_plan_viapoint_sep: 0.1  #
+  max_global_plan_lookahead_dist:  1.5    #1.0  3.0 #考虑优化的全局计划子集的最大长度（累积欧几里得距离）（如果为0或负数：禁用；长度也受本地Costmap大小的限制）
+  force_reinit_new_goal_dist: 1.0      #如果上一个目标的间隔超过指定的米数（跳过热启动），则强制规划器重新初始化轨迹
+  feasibility_check_no_poses: 1    #   
+  publish_feedback: false
+  allow_init_with_backwards_motion: false  #允许在开始时想后退来执行轨迹
+  exact_arc_length: false
+  shrink_horizon_backup: true
+  shrink_horizon_min_duration: 10.0
+
+  min_obstacle_dist: 0.25 #避障距离(障碍物膨胀半径)
+  include_costmap_obstacles: true
+  costmap_obstacles_behind_robot_dist: 1.0
+  inflation_dist: 0.4  #0.4  #0.05     #障碍物膨胀距离，惩罚成本不为零的障碍物周围的缓冲区（应大于min_obstacle_dist才能生效）
+  include_dynamic_obstacles: false
+  dynamic_obstacle_inflation_dist: 0.6  #动态障碍物的膨胀范围，动态障碍物的预测位置周围的缓冲区的惩罚成本非零（应大于min_obstacle_dist才能生效）
+  legacy_obstacle_association:   false  #是否严格遵循局部规划出来的路径，如果为true，则使用旧的关联策略（对于每个障碍，找到最近的TEB姿势），否则使用新的关联策略（对于每个teb姿势，仅找到“相关”障碍）。
+  obstacle_association_force_inclusion_factor: 0.5
+  obstacle_association_cutoff_factor: 5
+  costmap_converter_plugin: ""
+  costmap_converter_spin_thread: true
+  costmap_converter_rate: 5.0
+
+  no_inner_iterations: 3     #被外循环调用后内循环执行优化次数
+  no_outer_iterations: 3     #执行的外循环的优化次数
+  penalty_epsilon: 0.1
+  weight_acc_lim_x: 1.0
+  weight_acc_lim_theta: 12.0
+  weight_max_vel_x: 3.0
+  weight_max_vel_theta: 15.0
+  weight_kinematics_nh: 200.0 #调整顺应纵向运动和非顺应横向运动（扫射）之间的权衡。
+  weight_kinematics_forward_drive: 1000.0  #优化过程中，迫使机器人只选择前进方向，差速轮适用
+  weight_kinematics_turning_radius: 25.0  #优化过程中，车型机器人的最小转弯半径的权重
+  weight_optimaltime: 10          #45.5 #这个参数是最优时间权重，如果大了，那么车会在直道上快速加速，并且路径规划的也会切内道
+  weight_obstacle: 100.0   #######25#优化过程中，和障碍物最小距离的权重        
+  weight_viapoint: 50.0 #200 #优化过程中，和全局路径采样点距离的权重
+  weight_inflation: 0.075           #0.05   #优化过程中， 膨胀区的权重
+  weight_adapt_factor: 2.0
+
+  enable_homotopy_class_planning: false
+  enable_multithreading: false
+  max_number_classes: 2 #4 改 2 规划出的最多轨迹数,这个参数是可以解决多个障碍堵路规划抖动问题
+  selection_cost_hysteresis: 1.0
+  selection_obst_cost_scale: 100.0
+  selection_viapoint_cost_scale: 1.0
+  selection_alternative_time_cost: false
+  roadmap_graph_no_samples: 15
+  roadmap_graph_area_width: 5
+  h_signature_prescaler: 1.0
+  h_signature_threshold: 0.1
+  obstacle_heading_threshold: 0.45
+  visualize_hc_graph: false
+  viapoints_all_candidates: true
+  switching_blocking_period: 0.0
+  wheelbase: 0.2
+  oscillation_recovery: true
+
+
+

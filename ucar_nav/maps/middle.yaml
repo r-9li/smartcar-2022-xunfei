@@ -1,0 +1,7 @@
+image: middle1.pgm
+resolution: 0.02000
+origin: [-6.85103013, -3.44877928, 0]
+negate: 0
+occupied_thresh: 0.80
+free_thresh: 0.196
+
